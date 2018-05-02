@@ -1,0 +1,125 @@
+<!DOCTYPE = html>
+<html lang=en>
+<head>
+    <meta charset=utf-8>
+    <title>The Dungeonator</title>
+    <link rel="stylesheet" href="dungeonator.css">
+</head>
+<body>
+    <form id="auto">
+        <input id="limit" type="number"></input>
+    </form>
+    <button id="drawauto" onclick="autodraw();">Auto</button>
+    <script>let checkwalk = false</script>
+    <button class="selecter" id="checkwalk" onclick="checkwalk = checkwalk ? false : true;"></input>
+    <button id="tester" onclick="alert('walk is now ' + checkwalk)">tester</button>
+    <span id="count"></span>
+    <span id="opens"></span>
+    <div id="dungeon">
+    </div>
+    <script src="dungeonator.js">
+    </script>
+    <script>
+        let dungeon = new Dungeon(renderer);
+        dungeon.initialize();
+
+        document.addEventListener('keydown', function(event) {
+            let direction = 0;
+            switch (event.key) {
+                case 'ArrowUp':
+                    direction = 0;
+                    break;
+                case 'ArrowRight':
+                    direction = 1;
+                    break;
+                case 'ArrowDown':
+                    direction = 2;
+                    break;
+                case 'ArrowLeft':
+                    direction = 3;
+                    break;
+                default:
+                    return; // irrelevant key, break out
+            }
+
+            dungeon.move(direction);
+        });
+
+        function insertinplace(div, tile) {
+            let leftmost = document.getElementById("r" + tile.row + "c0");
+            if (leftmost) { // if the row already exists, really // assumes all rows have a c0 cell (which should be true?)
+                let leftnearest = leftmost
+                let attempt = undefined;
+                for (let c = 0; c < tile.col; ++c) {
+                    attempt = document.getElementById("r" + tile.row + "c" + c);
+                    if (attempt) {
+                        leftnearest = attempt;
+                    }
+                }
+                leftnearest.after(div);
+            } else {
+                let abovemost = document.getElementById("r" + tile.row);
+                let rowdiv = document.createElement('div');
+                rowdiv.classList.add("row");
+                rowdiv.id = "r" + tile.row;
+                if (! abovemost) {
+                    document.getElementById("dungeon").append(rowdiv);
+                } else {
+                    let abovenearest = abovemost;
+                    for (let r = 0; r < tile.row; ++r) {
+                        let attempt = document.getElementById("r" + r);
+                        if (attempt) {
+                            abovenearest = attempt;
+                        }
+                    }
+                    abovenearest.after(rowdiv);
+                }
+                rowdiv.append(div);
+            }
+        }
+
+        // renderer interface: // copied from .js
+        //
+        // to be called on visible changes
+        // called with:
+        //   name of change? (ie describe nature) -- alt. with entire new Tile or sim for overwriting
+        //   location of change
+        //      Both can be done by reporting all touched Tiles, as they know their own coordinates etc.
+        //
+        // to be implemented as div insertion/class change, but in .html file
+
+        function rendertile(tile) { // initial implementation: just redraw the tile
+            let div = document.getElementById(tile2id(tile));
+            // check for nonexistence, create // when creating multiples, place in correct order, but assume creation order is irrelevant
+            if (div == null) {
+                div = document.createElement('div');
+                insertinplace(div, tile);
+            }
+
+            div.id = "r" + tile.row + "c" + tile.col;
+            div.innerHTML = tile.room == undefined ? "--" : tile.room;
+            // set class: +- hidden, current, north, east, south, west as required
+            div.className = "tile"; // reset className / classList
+            if (!tile.seen) {
+                div.classList.add("hidden");
+            }
+            if (tile.current) {
+                div.classList.add("current");
+            }
+            for (let wall = 0; wall < 4; ++wall) {
+                if (tile.wall(wall) == 1) {
+                    div.classList.add( directionstring(wall) );
+                }
+            }
+            div.onclick = function () { dungeon.setcurrent(tile.row, tile.col); };
+        }
+
+        function renderer(tiles) {
+            for (let tile of tiles) {
+                rendertile(tile);
+            }
+            document.getElementById("count").innerHTML = dungeon.count;
+            document.getElementById("opens").innerHTML = dungeon.opens;
+        }
+    </script>
+</body>

@@ -1,0 +1,41 @@
+.dungeon {
+    overflow: hidden;
+}
+
+.row {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.tile {
+    height: 50px;
+    width: 50px;
+    border: 5px solid #dddddd;
+    float: left;
+}
+
+.tile.hidden {
+    border: 5px solid white;
+    background-color: green;
+}
+
+.tile.north {
+    border-top: 5px solid black;
+}
+
+.tile.east {
+    border-right: 5px solid black;
+}
+
+.tile.south {
+    border-bottom: 5px solid black;
+}
+
+.tile.west {
+    border-left: 5px solid black;
+}
+
+.tile.current {
+    background-color: yellow;
+}

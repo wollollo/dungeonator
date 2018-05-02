@@ -1,0 +1,35 @@
+Extensions:
+[ ] Multiple room types / random generators
+    <x> Tunnel - store direction, continue random distance
+    < > Geometric chambers - establish wall hits randomly, but maintain rectangular shape
+    < > Parametrize existing generator: change probability of wall
+    < > Open caverns: Generation based on wall ends, closed simple loop (work out behaviour if not following walls)
+    --------
+    <\> To implement, extend Dungeon appropriately, move relevant responsibilities to subclasses
+        Need a Dungeon to contain the whole, with references to Rooms to resolve randomness
+        ---------
+        Design elements:
+        (\) Dungeon still holds the map, as well as providing (most of) the interface
+        (\) Tiles hold a reference to a --wall generator-- room
+        (\) Generator is called by Dungeon, and has access to map (for collision detection)
+        (x) Adding new rooms: change Dungeon::setcurrent to work on unseen cells; other methods?
+[ ] Doors
+[ ] Autowalkers
+    < > Maybe store all open edges?
+[ ] Graphics?
+
+Fixes:
+[ ] Update existing autowalker for new engine
+[ ] Tests
+[ ] We do a lot of testing for dimensions, move to access functions?
+[X] Add in keyboard control
+[ ] Speed up rendering -- probable culprit: loops of document.getElement
+    < > Iterate through list of children instead of repeated id searching
+    < > Guarantuee that divs get added in order, so searching/looping becomes unnecessary
+
+Other:
+[ ] Git, when sufficiently clean
+[ ] Refactor: split out modules
+
+Bugs:
+[ ] Count is occasionally high: possibly when two opens border on the same unseen
