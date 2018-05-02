@@ -157,7 +157,11 @@ export class Dungeon {
 
         let tile = this._map[row][col];
 
-        let opensdelta = 0; // we are definitely removing one open edge, but it gets counted later
+        if (tile.seen) {
+            throw "Attempting to rediscover seen tile";
+        }
+
+        let opensdelta = 0;
         for (let wall = 0; wall < 4; ++wall) {
             let drow = deltarow(wall);
             let dcol = deltacol(wall);
@@ -225,7 +229,7 @@ export class Dungeon {
             }
         }
 
-        if (this._map[row][col].room == undefined) { // this should be in addtile?
+        if (this._map[row][col].room == undefined) {
             this._map[row][col]._room = this._newroom();
         }
 
@@ -264,6 +268,10 @@ function corridorgenerator(row, col, direction, originrow, origincol, origindire
     } else {
         return 1;
     }
+}
+
+export function predeterminedgenerator(row, col, direction, map) { // map is a row x col array of wall arrays
+    return map[row][col][direction];
 }
 
 function opposite(direction) {

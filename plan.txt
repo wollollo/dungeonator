@@ -28,8 +28,10 @@ Fixes:
     < > Guarantuee that divs get added in order, so searching/looping becomes unnecessary
 
 Other:
-[ ] Git, when sufficiently clean
-[ ] Refactor: split out modules
+[\] Git, when sufficiently clean
+    On git, but not really clean...
+[X] Refactor: split out modules
 
 Bugs:
-[ ] Count is occasionally high: possibly when two opens border on the same unseen
+[\] Count is occasionally high: possibly when two opens border on the same unseen
+    [ ] Could not reproduce. Fixed?
