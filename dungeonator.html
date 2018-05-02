@@ -25,14 +25,15 @@
         import {Dungeon, predeterminedgenerator} from './Dungeon.js';
         import {tile2id, directionstring} from './dungeonator.js';
 
-        let testmap = [ [[1,0,1,1], [1,0,0,0], [1,0,1,0], [1,1,0,0]],
+        let testmap = [ [[1,0,1,1], [1,0,0,0], [1,0,1,0], [1,1,0,0]], // used with testgenerator / predeterminedgenerator for debug
                         [[1,1,1,1], [0,1,0,1], [1,1,1,1], [0,1,0,1]],
                         [[1,1,1,1], [0,0,1,1], [1,0,1,0], [0,1,1,0]]];
         let testgenerator = function (row, col, direction) {
             return predeterminedgenerator(row, col, direction, testmap);
         }
+
         let dungeon = new Dungeon(renderer);
-        dungeon._rooms[0] = testgenerator;
+        //dungeon._rooms[0] = testgenerator; // uncomment if needed for debug
         dungeon.initialize();
 
         document.addEventListener('keydown', function(event) {
