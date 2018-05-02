@@ -1,4 +1,5 @@
-export class Tile {
+//class Tile { // use this line for testing
+export class Tile { // use this line for website
     constructor(dungeon, row, col, walls, room) { // Dungeon, int, int, array of ints[4] 
         this._dungeon = dungeon;
         this._row = row;
@@ -50,3 +51,5 @@ export class Tile {
         this._seen = true;
     }
 }
+
+//module.exports = Tile; // uncomment for testing
