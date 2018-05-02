@@ -17,9 +17,14 @@
     <span id="opens"></span>
     <div id="dungeon">
     </div>
+    <!--
     <script src="dungeonator.js">
     </script>
-    <script>
+    -->
+    <script type="module">
+        import {Dungeon} from './Dungeon.js';
+        import {tile2id, directionstring} from './dungeonator.js';
+
         let dungeon = new Dungeon(renderer);
         dungeon.initialize();
 
